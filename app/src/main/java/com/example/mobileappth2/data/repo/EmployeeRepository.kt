@@ -22,11 +22,6 @@ class EmployeeRepository(private val db: AppDatabase) {
         db.readableDatabase.rawQuery("SELECT * FROM Employee WHERE id = ?", arrayOf(id.toString()))
             .use { if (it.moveToFirst()) it.toEmployee() else null }
 
-    // Employee of the logged-in account (session.accountId())
-    fun getByAccountId(accountId: Long): Employee? =
-        db.readableDatabase.rawQuery("SELECT * FROM Employee WHERE accountId = ?", arrayOf(accountId.toString()))
-            .use { if (it.moveToFirst()) it.toEmployee() else null }
-
     // Creates the login Account and the Employee together. Returns the new id, or -1 if the code/username is taken.
     fun insert(employee: Employee, username: String, password: String): Long {
         val conn = db.writableDatabase
